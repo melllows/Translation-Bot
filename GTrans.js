@@ -42,62 +42,73 @@ function newGame() {
 } */
 // API posts for dscord bot servers
 let request = require("superagent");
-let dbots_token = `${tlcfg.dbots}`
+let dbots_token = `${tlcfg.dbots}`;
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
 request.post(`https://discordbots.org/api/bots/318554710929833986/stats`)
   .set('Authorization', dbots_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO DISCORDBOTS.ORG: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://discordbots.org! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://discordbots.org! Now at ${guildsizes} servers!`);
   }
-  });
+});
+})
 let dbotspw_token = `${tlcfg.dbotspw}`
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
   request.post(`https://bots.discord.pw/api/bots/318554710929833986/stats`)
   .set('Authorization', dbotspw_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO BOTS.DISCORD.PW: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${guildsizes} servers!`);
   }
   });
-
+})
 });
 client.on('guildCreate', guild => {
   let request = require("superagent");
 let dbots_token = `${tlcfg.dbots}`
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
 request.post(`https://discordbots.org/api/bots/318554710929833986/stats`)
   .set('Authorization', dbots_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO DISCORDBOTS.ORG: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://discordbots.org! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://discordbots.org! Now at ${guildsizes} servers!`);
   }
-  });
+});
+})
 let dbotspw_token = `${tlcfg.dbotspw}`
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
   request.post(`https://bots.discord.pw/api/bots/318554710929833986/stats`)
   .set('Authorization', dbotspw_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO BOTS.DISCORD.PW: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${guildsizes} servers!`);
   }
 });
+})
 if (!guild.iconURL) {
     const newGuild = new Discord.RichEmbed()
   .setColor(0xFFFFFF)
-  .setTitle(`New Guild Joined! Now at ${client.guilds.size} servers!`)
+  .setTitle(`New Guild Joined! Now at ${guildsizes} servers!`)
   .addField(`GuildID`, `${guild.id}`)
   .addField(`Owner`, `${guild.owner.user.tag} | ${guild.ownerID}`)
   .addField(`Region`, `${guild.region}`)
@@ -109,7 +120,7 @@ if (!guild.iconURL) {
   }
   const newGuild = new Discord.RichEmbed()
   .setColor(0xFFFFFF)
-  .setTitle(`New Guild Joined! Now at ${client.guilds.size} servers!`)
+  .setTitle(`New Guild Joined! Now at ${guildsizes} servers!`)
   .addField(`GuildID`, `${guild.id}`)
   .addField(`Owner`, `${guild.owner.user.tag} | ${guild.ownerID}`)
   .addField(`Region`, `${guild.region}`)
@@ -122,33 +133,39 @@ if (!guild.iconURL) {
 client.on('guildDelete', guild => {
   let request = require("superagent");
 let dbots_token = `${tlcfg.dbots}`
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
 request.post(`https://discordbots.org/api/bots/318554710929833986/stats`)
   .set('Authorization', dbots_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO DISCORDBOTS.ORG: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://discordbots.org! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://discordbots.org! Now at ${guildsizes} servers!`);
   }
-  });
-let dbotspw_token = `${tlcfg.dbotspw}`
+});
+})
+let dbotspw_token = `${tlcfg.dbotspw}`;
+client.shard.fetchClientValues('guilds.size').then(result => {
+  const guildsizes = result.reduce((prev, val) => prev + val, 0)
   request.post(`https://bots.discord.pw/api/bots/318554710929833986/stats`)
   .set('Authorization', dbotspw_token)
-  .send({server_count: client.guilds.size})
+  .send({server_count: guildsizes})
   .end(function(err, res){
     if (err) {
     return console.log(`ERROR SENDING STATS TO BOTS.DISCORD.PW: ${err}`);
   }
   else {
-    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${client.guilds.size} servers!`);
+    console.log(`Successfully sent stats to https://bots.discord.pw! Now at ${guildsizes} servers!`);
   }
 });
+})
 if (!guild.iconURL) {
     const newGuild = new Discord.RichEmbed()
   .setColor(0xFFFFFF)
-  .setTitle(`Left Guild! Now at ${client.guilds.size} servers!`)
+  .setTitle(`Left Guild! Now at ${guildsizes} servers!`)
   .addField(`GuildID`, `${guild.id}`)
   .addField(`Owner`, `${guild.owner.user.tag} | ${guild.ownerID}`)
   .addField(`Region`, `${guild.region}`)
@@ -160,7 +177,7 @@ if (!guild.iconURL) {
   }
   const newGuild = new Discord.RichEmbed()
   .setColor(0xFFFFFF)
-  .setTitle(`Left Guild! Now at ${client.guilds.size} servers!`)
+  .setTitle(`Left Guild! Now at ${guildsizes} servers!`)
   .addField(`GuildID`, `${guild.id}`)
   .addField(`Owner`, `${guild.owner.user.tag} | ${guild.ownerID}`)
   .addField(`Region`, `${guild.region}`)
