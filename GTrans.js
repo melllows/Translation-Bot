@@ -25,7 +25,7 @@ client.on('ready', () => {
     client.shard.fetchClientValues('guilds.size').then(result => {
     const guildsizes = result.reduce((prev, val) => prev + val, 0)
     const userCount = client.guilds.reduce((p, c) => p + c.memberCount, 0);
-    client.user.setGame(`:T help | ${guildsizes} servers & ${userCount} users! | Want to support Translate's existence? go here! https://www.patreon.com/TannerReynolds`);
+    client.user.setPresence({ game: { name: `:T help | ${guildsizes} servers & ${userCount} users! | Want to support Translate's existence? go here! https://www.patreon.com/TannerReynolds`, type: 0 } });
     //client.user.setGame(`kpop4.us will be down for a while due to server maintenance | ":t english hello"`);
     console.log(`GOOGLE TRANSLATE BOT. Playing on ${guildsizes} servers, currently serving ${userCount} users`);
     const gmstr = [
@@ -39,7 +39,7 @@ client.on('ready', () => {
     setInterval(newGame, 1000*30);
     function newGame() {
       var randomNumber = Math.floor(Math.random() * gmstr.length);
-      client.user.setGame(`${gmstr[randomNumber]}`);
+      client.user.setPresence({ game: { name: `${gmstr[randomNumber]}`, type: 0 } });
     }
     // API posts for dscord bot servers
     let request = require("superagent");
@@ -2643,11 +2643,9 @@ So, do you have any questions that may be asked in the survey? E. g. new troops 
                     const curpro = processes;
                     const meuse = memusage;
                     const acusage = cpuusage;
-                    message.channel.send(`[CPU]: ${acusage}%
+                    message.channel.send(`[CPU]: ${acusage}% | 2 vCores @ 2.4 GHz
 
-[RAM]: ${meuse}%
-
-[Network Speed]: 1gbps
+[RAM]: ${meuse}% of 12GB
 
 [Ping]: ${botPing}
 
@@ -2659,11 +2657,11 @@ So, do you have any questions that may be asked in the survey? E. g. new troops 
 
 [Platform]: CentOS 7 x64 - Linux
 
-[Server Location]: San Jose
+[Server Location]: Canada
 
-[Hosting Provider]: Vultr Holdings LLC
+[Hosting Provider]: OVH
 
-[Client Uptime]: ${Math.floor(((client.uptime / (1000*60*60)) % 24))}
+[Client Uptime]: ${Math.floor(((client.uptime / (1000*60*60)) % 24))} hours
 
 [Server Uptime]: ${JSON.stringify(uptime)} hours`, {
                         code: 'ini'
@@ -2673,13 +2671,13 @@ So, do you have any questions that may be asked in the survey? E. g. new troops 
         });
     }
 
-    if (command === "update") {
+    if (command === "logoff") {
         if (message.author.id !== "205912295837138944") {
-            return message.channel.send(`Only bot devs can update the bot's code.`);
+            return;
         }
         const embed2 = new Discord.RichEmbed()
             .setColor(0xFFFFFF)
-            .setTitle(`:cd: Restarting`);
+            .setTitle(`:cd: Logging out`);
         message.channel.send({
             embed: embed2
         });
@@ -2693,7 +2691,7 @@ So, do you have any questions that may be asked in the survey? E. g. new troops 
         message.reply(`https://www.patreon.com/TannerReynolds`);
     }
 
-    if (message.content === ":T guild list") {
+    if (message.content.toLowerCase === ":t guild list") {
         if (message.author.id !== "205912295837138944") return;
         let translateGuilds = client.guilds.map(g => `NAME: ${g.name} | MEMBER ACOUNT: ${g.memberCount} | GUILD ID: ${g.id} | OWNER ID: ${g.ownerID} | LARGE GUILD: ${g.large}\n`)
         var writeFile = require('write');
@@ -2725,7 +2723,7 @@ client.on('message', message => {
             if (typeof evaled !== "string")
                 evaled = require("util").inspect(evaled);
 
-            const embed = new Discord.RichEmbed()
+            const success = new Discord.RichEmbed()
                 .setColor(0x74FF62)
 
             .addField(`Input`, `${code}`)
@@ -2733,11 +2731,10 @@ client.on('message', message => {
   ${clean(evaled)}
    \`\`\``);
             message.channel.send({
-                embed
+                embed: success
             });
         } catch (err) {
-            message.channel.send(`\`ERROR\` \`\`\`xl\n${clean(err)}\n\`\`\``);
-            const embed = new Discord.RichEmbed()
+            const errEm = new Discord.RichEmbed()
                 .setColor(0x74FF62)
 
             .addField(`Input`, `${code}`)
@@ -2745,6 +2742,9 @@ client.on('message', message => {
   \`ERROR\`
   ${clean(err)}
    \`\`\``);
+   message.channel.send({
+       embed: errEm
+   })
         }
     }
 });
