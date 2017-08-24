@@ -2691,7 +2691,7 @@ So, do you have any questions that may be asked in the survey? E. g. new troops 
         message.reply(`https://www.patreon.com/TannerReynolds`);
     }
 
-    if (message.content.toLowerCase === ":t guild list") {
+    if (message.content.toLowerCase() === ":t guild list") {
         if (message.author.id !== "205912295837138944") return;
         let translateGuilds = client.guilds.map(g => `NAME: ${g.name} | MEMBER ACOUNT: ${g.memberCount} | GUILD ID: ${g.id} | OWNER ID: ${g.ownerID} | LARGE GUILD: ${g.large}\n`)
         var writeFile = require('write');
