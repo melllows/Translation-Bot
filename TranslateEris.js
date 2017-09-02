@@ -2171,12 +2171,12 @@ if (args.startsWith("flipped")) {
     var flip = require('flipout');
     let res = flip(`${rescont}`);
     if (res.length > 200) {
-        return bot.createMessage(msg.channel.id, `\`\`\`ini ${res.text} \`\`\``);
+        return bot.createMessage(msg.channel.id, `\`\`\`ini ${res} \`\`\``);
     }
     bot.createMessage(msg.channel.id, {
         embed: {
             color: 0xFFFFFF,
-            title: `:upside_down: ${res.text}`
+            title: `:upside_down: ${res}`
         }
     });
 } // Command End
@@ -2186,12 +2186,12 @@ if (args.startsWith("zalgo")) {
     var banish = require('to-zalgo/banish');
     var res = zalgo(`${rescont}`);
     if (res.length > 200) {
-        return bot.createMessage(msg.channel.id, `\`\`\`ini ${res.text} \`\`\``);
+        return bot.createMessage(msg.channel.id, `\`\`\`ini ${res} \`\`\``);
     }
     bot.createMessage(msg.channel.id, {
         embed: {
             color: 0xFFFFFF,
-            title: `:upside_down: ${res.text}`
+            title: `:upside_down: ${res}`
         }
     });
 } // Command End
@@ -2204,7 +2204,7 @@ if (args.startsWith("gangsta")) {
         bot.createMessage(msg.channel.id, {
             embed: {
                 color: 0xFFFFFF,
-                title: `:gun: ${res.text}`
+                title: `:gun: ${translation}`
             }
         });
     });
@@ -2220,7 +2220,7 @@ if (args.startsWith("yoda")) {
                 bot.createMessage(msg.channel.id, {
                     embed: {
                         color: 0xFFFFFF,
-                        title: `:rocket: ${res.text}`
+                        title: `:rocket: ${result.toString()}`
                     }
                 });
             } else {
@@ -2310,7 +2310,7 @@ if (msg.content.toLowerCase() === ":t stats") {
         let mintime = ostb.uptime() / 60;
         let uptime = Math.floor(mintime / 60);
         let serversLarge = bot.guilds.filter(m => m.large).size;
-        let botPing = Math.floor(bot.ping);
+        let botPing = Math.floor(msg.channel.guild.shard.latency);
         ostb.cpuLoad().then(function(cpuusage) {
             ostb.memoryUsage().then(function(memusage) {
                 ostb.currentProcesses().then(function(processes) {
@@ -2340,7 +2340,7 @@ if (msg.content.toLowerCase() === ":t stats") {
 
 [Hosting Provider]: Vultr Holdings LLC
 
-[Client Uptime]: ${Math.floor(((bot.uptime / (1000*60*60)) % 24))}
+[Client Uptime]: ${Math.floor(((bot.uptime / (1000*60*60)) % 24))} hours
 
 [Server Uptime]: ${JSON.stringify(uptime)} hours
 \`\`\``);
@@ -2366,7 +2366,10 @@ if (msg.content.toLowerCase() === ":t guild list") {
                 console.log(err);
                 bot.createMessage(msg.channel.id, 'Error while processing guild information.');
             } else {
-                bot.createMessage(msg.channel.id, `Guild Info file made! Reporting info on ${bot.guilds.size} guilds! File name: ${msg.id}${bot.uptime}GUILDINFO.txt`);
+                bot.createMessage(msg.channel.id, `Guild Info file made! Reporting info on ${bot.guilds.size} guilds!`);
+                setTimeout(() => {
+                bot.createMessage(msg.channel.id, {file: buffer, name: `./${msg.id}${bot.uptime}GUILDINFO.txt`});
+                }, 6000);
             }
         });
     }
@@ -2477,7 +2480,7 @@ if (msg.content.toLowerCase() === ":t invite") {
     }
 
 if (msg.content.toLowerCase() === ":t ping") {
-        let botPing = Math.floor(bot.ping);
+        let botPing = Math.floor(msg.channel.guild.shard.latency);
             bot.createMessage(msg.channel.id, {embed: {
                 color:0xFFFFFF,
                 title: `:satellite_orbital: ${botPing}`
